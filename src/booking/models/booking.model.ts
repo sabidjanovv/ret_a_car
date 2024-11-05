@@ -29,7 +29,6 @@ export class Booking extends Model<Booking> {
     allowNull: false,
   })
   customer_id: number;
-
   @BelongsTo(() => Customer)
   customer: Customer;
 
@@ -40,7 +39,6 @@ export class Booking extends Model<Booking> {
     allowNull: false,
   })
   car_id: number;
-
   @BelongsTo(() => Car)
   car: Car;
 

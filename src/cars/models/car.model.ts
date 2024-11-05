@@ -11,6 +11,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Office } from "../../office/models/office.model";
 import { Booking } from "../../booking/models/booking.model";
 import { RentalHistory } from "../../rental_history/models/rental_history.model";
+import { Comment } from "../../comments/models/comment.model";
 
 export interface ICarAttr {
   id?: number; // Optional, as it will be auto-incremented
@@ -135,4 +136,7 @@ export class Car extends Model<Car, ICarAttr> {
 
   @HasMany(() => RentalHistory)
   rental_histories: RentalHistory[];
+
+  @HasMany(()=>Comment)
+  comments: Comment[];
 }

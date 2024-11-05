@@ -4,6 +4,7 @@ import { Booking } from "../../booking/models/booking.model";
 import { Discount } from "../../discounts/models/discount.model";
 import { Contract } from "../../contract/models/contract.model";
 import { RentalHistory } from "../../rental_history/models/rental_history.model";
+import { Comment } from "../../comments/models/comment.model";
 // import { CustomerDiscount } from "./customer_discount_model";
 
 interface ICustomerAttr {
@@ -153,4 +154,7 @@ export class Customer extends Model<Customer, ICustomerAttr> {
 
   @HasMany(() =>RentalHistory)
   rental_histories: RentalHistory[];
+
+  @HasMany(()=>Comment)
+  comments: Comment[];
 }

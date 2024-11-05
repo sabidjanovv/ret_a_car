@@ -29,7 +29,6 @@ export class Payment extends Model<Payment> {
     allowNull: false,
   })
   contract_id: number;
-
   @BelongsTo(() => Contract)
   contract: Contract;
 

@@ -27,7 +27,6 @@ export class RentalHistory extends Model<RentalHistory> {
     allowNull: false,
   })
   car_id: number;
-
   @BelongsTo(() => Car)
   car: Car;
 
@@ -41,7 +40,6 @@ export class RentalHistory extends Model<RentalHistory> {
     allowNull: false,
   })
   customer_id: number;
-
   @BelongsTo(() => Customer)
   customer: Customer;
 

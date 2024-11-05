@@ -117,7 +117,7 @@ export class Office extends Model<Office, IOfficeAttr> {
   owner: Owner;
 
   @HasMany(() => Car)
-  cars: Car;
+  cars: Car[];
 
   @HasMany(() => Contract)
   contracts: Contract[];

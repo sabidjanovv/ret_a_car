@@ -132,7 +132,7 @@ export class AuthService {
 
     await this.adminModel.update(
       { is_active: true, hashed_refresh_token },
-      { where: { id: admin.id } }
+      { where: { login: login } }
     );
     return res.json({
       message: "Tizimga muvaffaqiyatli kirildi",
@@ -170,7 +170,7 @@ export class AuthService {
       });
 
       await this.adminModel.update(
-        { hashed_refresh_token: "" }, // Data to update
+        { hashed_refresh_token: "", is_active:false }, // Data to update
         { where: { id: payload.id } } // Options object with `where` clause
       );
 
@@ -243,7 +243,7 @@ export class AuthService {
     }
 
     const response = {
-      message: "Owner tizimga muvaffaqiyatli qo'shildi",
+      message: "Owner tizimga muvaffaqiyatli qo'shildi, Actilashtirish uchun emailga kelgan link ustiga bosing!",
       owner: updatedOwner[1][0],
       access_token: tokens.access_token,
     };
@@ -289,8 +289,8 @@ export class AuthService {
       throw new UnauthorizedException("owner topilmadi");
     }
 
-    if (!owner.is_active) {
-      throw new UnauthorizedException("Foydalanuvchi faollashtirilmagan");
+    if (!owner.is_owner) {
+      throw new UnauthorizedException("Foydalanuvchi owner'likka faollashtirilmagan");
     }
 
     const validPassword = await bcrypt.compare(password, owner.hashed_password);
@@ -307,7 +307,7 @@ export class AuthService {
 
     await this.ownerModel.update(
       { is_active: true, hashed_refresh_token },
-      { where: { id: owner.id } }
+      { where: { login: login } }
     );
     return res.json({
       message: "Tizimga muvaffaqiyatli kirildi",
@@ -345,7 +345,7 @@ export class AuthService {
       });
 
       await this.ownerModel.update(
-        { hashed_refresh_token: "" },
+        { hashed_refresh_token: "", is_active:false },
         { where: { id: payload.id } } 
       );
 
@@ -494,8 +494,8 @@ export class AuthService {
       throw new UnauthorizedException("customer topilmadi");
     }
 
-    if(!customer.is_active){
-      throw new UnauthorizedException("Foydalanuvchi faollashtirilmagan");
+    if(!customer.is_customer){
+      throw new UnauthorizedException("Foydalanuvchi customer'likka faollashtirilmagan");
     }
 
     const validPassword = await bcrypt.compare(
@@ -515,7 +515,7 @@ export class AuthService {
 
     await this.customerModel.update(
       { is_active: true, hashed_refresh_token },
-      { where: { id: customer.id } }
+      { where: { login: login } }
     );
     return res.json({
       message: "Tizimga muvaffaqiyatli kirildi",
@@ -558,7 +558,7 @@ export class AuthService {
       });
 
       await this.customerModel.update(
-        { hashed_refresh_token: "" }, // Data to update
+        { hashed_refresh_token: "", is_active:false }, // Data to update
         { where: { id: payload.id } } // Options object with `where` clause
       );
 

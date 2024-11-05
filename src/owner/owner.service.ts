@@ -2,8 +2,8 @@ import { BadRequestException, Injectable, InternalServerErrorException } from '@
 import { UpdateOwnerDto } from './dto/update-owner.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Owner } from './models/owner.model';
-import { JwtService } from "@nestjs/jwt";
-import * as bcrypt from "bcrypt";
+// import { JwtService } from "@nestjs/jwt";
+// import * as bcrypt from "bcrypt";
 import * as uuid from "uuid";
 import { MailService } from '../mail/mail.service';
 import { Response } from "express";
@@ -13,7 +13,7 @@ import { Response } from "express";
 export class OwnerService {
   constructor(
     @InjectModel(Owner) private ownerModel: typeof Owner,
-    private readonly jwtService: JwtService,
+    // private readonly jwtService: JwtService,
     private readonly mailService: MailService
   ) {}
 
@@ -105,7 +105,11 @@ export class OwnerService {
     return this.ownerModel.findAll({ include: { all: true } });
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
+    const owner = await this.ownerModel.findByPk(id);
+    if (!owner) {
+      throw new BadRequestException(`ID: ${id} bo'lgan foydalanuvchi topilmadi.`);
+    }
     return this.ownerModel.findOne({ where: { id }, include: { all: true } });
   }
 

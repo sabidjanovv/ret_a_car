@@ -21,6 +21,7 @@ export class AdminService {
       login: admin.login,
       is_active: admin.is_active,
       is_creator: admin.is_creator,
+      is_admin: admin.is_admin,
     };
 
     const [access_token, refresh_token] = await Promise.all([
@@ -79,21 +80,24 @@ export class AdminService {
       ...createAdminDto,
       hashed_password,
     });
+    
     const tokens = await this.generateToken(newAdmin);
     const hashed_refresh_token = await bcrypt.hash(tokens.refresh_token, 7);
 
+    
     const updatedAdmin = await this.adminModel.update(
       { hashed_refresh_token },
       { where: { id: newAdmin.id }, returning: true }
     );
+    
     res.cookie("refresh_token", tokens.refresh_token, {
       httpOnly: true,
       maxAge: +process.env.REFRESH_TIME_MS,
-    });
+    });    
 
     return {
-      // message: "Admin muvaffaqiyatli ro'yxatdan o'tkazildi",
-      admin: updatedAdmin,
+      message: "Admin muvaffaqiyatli ro'yxatdan o'tkazildi",
+      admin: updatedAdmin[1][0],
       access_token: tokens.access_token,
     };
   }
@@ -102,7 +106,11 @@ export class AdminService {
     return this.adminModel.findAll({ include: { all: true } });
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
+    const admin = await this.adminModel.findByPk(id);
+    if (!admin) {
+      throw new BadRequestException(`ID: ${id} admin mavjud emas!`);
+    }
     return this.adminModel.findOne({ where: {id}, include: { all: true } });
   }
 

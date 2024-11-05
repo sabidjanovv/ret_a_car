@@ -55,6 +55,12 @@ export class Admin extends Model<Admin, IAdminAttr> {
     type: DataType.BOOLEAN,
     defaultValue: false,
   })
+  is_admin: boolean;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
   is_creator: boolean;
 
   @Column({

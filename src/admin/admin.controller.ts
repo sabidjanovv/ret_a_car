@@ -7,18 +7,16 @@ import {
   Param,
   Delete,
   Res,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from "@nestjs/swagger";
 import { AdminService } from "./admin.service";
 import { CreateAdminDto } from "./dto/create-admin.dto";
 import { UpdateAdminDto } from "./dto/update-admin.dto";
 import { Response, Request } from "express";
-import { AdminCreatorGuard } from "../guards/admin_creator.guard";
-import { CookieGetter } from "../decorators/cookieGetter.decorator";
-import { AdminSelfGuard } from "../guards/admin-self.guard";
-
-
+import { AdminCreatorGuard } from "../common/guards/admin_creator.guard";
+import { CookieGetter } from "../common/decorators/cookieGetter.decorator";
+import { AdminSelfGuard } from "../common/guards/admin-self.guard";
 
 @ApiTags("Admin")
 @Controller("admin")
@@ -80,7 +78,6 @@ export class AdminController {
   update(@Param("id") id: string, @Body() updateAdminDto: UpdateAdminDto) {
     return this.adminService.update(+id, updateAdminDto);
   }
-
 
   @UseGuards(AdminCreatorGuard)
   @Delete(":id")

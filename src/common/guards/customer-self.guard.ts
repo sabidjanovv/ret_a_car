@@ -9,7 +9,7 @@ import {
 import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
-export class OwnerSelfGuard implements CanActivate {
+export class CustomerSelfGuard implements CanActivate {
   constructor(private readonly jwtService: JwtService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -46,8 +46,18 @@ export class OwnerSelfGuard implements CanActivate {
       });
     }
 
-    if (payload.id !== Number(req.params.id)) {
-      throw new ForbiddenException("Sizda bunday huquq yo'q! Siz faqat o'zingizni ma'lumotlaringizni ko'ra olasiz va o'zgartira olasiz");
+    if (payload.is_customer !== true) {
+      throw new ForbiddenException(
+        "Sizda bunday huquq yo'q! Siz customer emassiz!"
+      );
+    }
+
+    if (
+      Number(payload.id) !== Number(req.params.id)
+    ) {
+      throw new ForbiddenException(
+        "Sizda bunday huquq yo'q! Siz faqat o'zingizni ma'lumotlaringizni ko'ra olasiz va o'zgartira olasiz"
+      );
     }
 
     return true;

@@ -1,22 +1,33 @@
-import { Controller, Post, Body, Res, Param, HttpStatus, Req, UseGuards, Get } from "@nestjs/common";
-import { AuthService } from './auth.service';
-import { Admin } from '../admin/models/admin.model';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateAdminDto } from '../admin/dto/create-admin.dto';
-import { AdminService } from '../admin/admin.service';
+import {
+  Controller,
+  Post,
+  Body,
+  Res,
+  Param,
+  HttpStatus,
+  Req,
+  UseGuards,
+  Get,
+} from "@nestjs/common";
+import { AuthService } from "./auth.service";
+import { Admin } from "../admin/models/admin.model";
+import { ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { CreateAdminDto } from "../admin/dto/create-admin.dto";
+import { AdminService } from "../admin/admin.service";
 import { Response, Request } from "express";
-import { SignInDto } from './dto/admin-signin.dto';
-import { CookieGetter } from '../decorators/cookieGetter.decorator';
-import { JwtAdminAuthGuard } from "../guards/jwt-admin_auth.guard";
-import { AdminCreatorGuard } from "../guards/admin_creator.guard";
+import { SignInDto } from "./dto/admin-signin.dto";
+import { CookieGetter } from "../common/decorators/cookieGetter.decorator";
+import { AdminCreatorGuard } from "../common/guards/admin_creator.guard";
 import { CreateOwnerDto } from "../owner/dto/create-owner.dto";
 import { Owner } from "../owner/models/owner.model";
+import { Customer } from "../customer/models/customer.model";
+import { CreateCustomerDto } from "../customer/dto/create-customer.dto";
 
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(AdminCreatorGuard)
+  // @UseGuards(AdminCreatorGuard)
   @Post("admin-signup")
   @ApiOperation({ summary: "Yangi admin qo'shish (is_creator yarata oladi)" })
   @ApiResponse({
@@ -62,7 +73,7 @@ export class AuthController {
   async adminSignOut(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-    @Param("id") id: string // Correct usage of decorator
+    @Param("id") id: string
   ) {
     const refreshToken = req.cookies["refresh_token"];
 
@@ -117,5 +128,61 @@ export class AuthController {
     const refreshToken = req.cookies["refresh_token"];
 
     return this.authService.ownerSignOut(refreshToken, res, +id);
+  }
+
+  //=============================== CUSTOMER =================================
+
+  @Post("customer-signup")
+  @ApiOperation({ summary: "Yangi customer qo'shish" })
+  @ApiResponse({
+    status: 201,
+    description: "Create customer",
+    type: Customer,
+  })
+  async customerSignUp(
+    @Body() createCustomerDto: CreateCustomerDto,
+    @Res() res: Response
+  ) {
+    const result = await this.authService.customerSignUp(
+      createCustomerDto,
+      res
+    );
+    return res.status(201).json(result);
+  }
+
+  @ApiOperation({ summary: "Userni aktivlashtirish uchun link" })
+  @Get("activate-customer/:link")
+  activateCustomer(@Param("link") link: string, @Res() res: Response) {
+    return this.authService.activateCustomer(link, res);
+  }
+
+  @Post("customer-signin")
+  @ApiOperation({ summary: "customer tizimga kirish" })
+  @ApiResponse({
+    status: 200,
+    description: "customer signin",
+    type: Customer,
+  })
+  async customerSignIn(
+    @Body() customerSignInDto: SignInDto,
+    @Res() res: Response
+  ) {
+    return this.authService.customerSignIn(customerSignInDto, res);
+  }
+
+  @Post("customer-signout/:id")
+  @ApiOperation({ summary: "customer tizimdan chiqishi" })
+  @ApiResponse({
+    status: 200,
+    description: "customer signout",
+  })
+  async customerSignOut(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+    @Param("id") id: string // Correct usage of decorator
+  ) {
+    const refreshToken = req.cookies["refresh_token"];
+
+    return this.authService.customerSignOut(refreshToken, res, +id);
   }
 }

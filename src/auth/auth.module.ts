@@ -7,9 +7,10 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Admin } from '../admin/models/admin.model';
 import { Owner } from '../owner/models/owner.model';
 import { MailModule } from '../mail/mail.module';
+import { Customer } from '../customer/models/customer.model';
 @Module({
   imports: [
-    SequelizeModule.forFeature([Admin, Owner]),
+    SequelizeModule.forFeature([Admin, Owner, Customer]),
     JwtModule.register({}),
     MailModule,
   ],

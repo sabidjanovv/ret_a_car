@@ -4,7 +4,6 @@ import {
   IsEmail,
   Matches,
   MinLength,
-  MaxLength,
 } from "class-validator";
 
 export class CreateOwnerDto {

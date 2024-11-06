@@ -45,6 +45,17 @@ export class CarsController {
   }
 
   @UseGuards(HybridGuard)
+  @Get('/free')
+  @ApiOperation({ summary: "Barcha mashinalar ro'yxatini olish" })
+  @ApiResponse({
+    status: 200,
+    description: "Mashinalar ro'yxati muvaffaqiyatli olindi.",
+  })
+  findAllFreeCar() {
+    return this.carsService.findAllFreeCar();
+  }
+
+  @UseGuards(HybridGuard)
   @Get(":id")
   @ApiOperation({ summary: "ID orqali ma'lum bir mashinani olish" })
   @ApiParam({

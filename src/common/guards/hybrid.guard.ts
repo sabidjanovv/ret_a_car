@@ -44,12 +44,12 @@ export class HybridGuard implements CanActivate {
       throw new ForbiddenException("Active emas!");
     }
 
-    if (payload.is_admin !== true || payload.is_customer !== true || payload.is_owner !== true) {
-        return true
-    }
-    else{
-        throw new ForbiddenException("Sizda bunday huquq yo'q!");
-    }
+    // if (payload.is_admin !== true || payload.is_customer !== true || payload.is_owner !== true) {
+    //     return true
+    // }
+    // else{
+    //     throw new ForbiddenException("Sizda bunday huquq yo'q!");
+    // }
 
     return true;
   }

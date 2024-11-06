@@ -18,13 +18,20 @@ export class CarsService {
     });
   }
 
-  async findOne(car_id: number){
+  findAllFreeCar() {
+    return this.carModel.findAll({
+      where: { status: 'free' },
+      include: { all: true },
+    });
+  }
+
+  async findOne(car_id: number) {
     const existingCar = await this.carModel.findByPk(car_id);
     if (!existingCar) {
       throw new NotFoundException(`Car with ID: ${car_id} does not exist.`);
     }
     const car = await this.carModel.findOne({
-      where: { id:car_id },
+      where: { id: car_id },
       include: { all: true },
     });
     return car;

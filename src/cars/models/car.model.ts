@@ -81,6 +81,7 @@ export class Car extends Model<Car, ICarAttr> {
   @ApiProperty({ example: "booked", description: "Car status" })
   @Column({
     type: DataType.ENUM("booked", "busy", "free"),
+    defaultValue: "free"
   })
   status: "booked" | "busy" | "free";
 

@@ -23,12 +23,12 @@ import { AdminSelfGuard } from "../common/guards/admin-self.guard";
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
-  @Post()
   @UseGuards(AdminCreatorGuard)
+  @Post()
   @ApiOperation({ summary: "Yangi admin yaratish" })
   @ApiResponse({ status: 201, description: "Admin yaratildi." })
   @ApiResponse({ status: 400, description: "Xato ma'lumotlar." })
-  create(@Body() createAdminDto: CreateAdminDto, @Res() res: Response) {
+  create(@Body() createAdminDto: CreateAdminDto, @Res({passthrough:true}) res: Response) {
     return this.adminService.create(createAdminDto, res);
   }
 

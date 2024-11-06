@@ -19,6 +19,8 @@ import { CommentsService } from "./comments.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { UpdateCommentDto } from "./dto/update-comment.dto";
 import { CustomerCommenttGuard } from "../common/guards/customer-comment.guard";
+import { AdminGuard } from "../common/guards/admin.guard";
+import { JwtAuthGuard } from "../common/guards/jwt-auth.guard";
 
 @ApiTags("comments") // Swagger tagi
 @Controller("comments")
@@ -37,6 +39,7 @@ export class CommentsController {
     return this.commentsService.create(createCommentDto);
   }
 
+  @UseGuards(AdminGuard)
   @Get()
   @ApiOperation({ summary: "Retrieve all comments" })
   @ApiResponse({ status: 200, description: "List of all comments" })
@@ -44,6 +47,7 @@ export class CommentsController {
     return this.commentsService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(":id")
   @ApiOperation({ summary: "Retrieve a single comment by ID" })
   @ApiParam({ name: "id", type: "string", description: "Comment ID" })

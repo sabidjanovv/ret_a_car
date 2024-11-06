@@ -89,12 +89,14 @@ export class AdminService {
       { hashed_refresh_token },
       { where: { id: newAdmin.id }, returning: true }
     );
+    console.log(11111);
     
     res.cookie("refresh_token", tokens.refresh_token, {
       httpOnly: true,
       maxAge: +process.env.REFRESH_TIME_MS,
     });    
-
+    console.log(222222);
+    
     return {
       message: "Admin muvaffaqiyatli ro'yxatdan o'tkazildi",
       admin: updatedAdmin[1][0],

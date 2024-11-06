@@ -37,8 +37,8 @@ export class JwtAuthGuard implements CanActivate {
         error,
       });
     }
-    req.admin = payload;
-    req.owner = payload;
+    // req.admin = payload;
+    // req.owner = payload;
     // logika
     return true;
   }

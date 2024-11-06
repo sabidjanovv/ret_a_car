@@ -30,6 +30,12 @@ export class PaymentsService {
       );
     }
 
+    if (Number(contract.total_price) !== Number(payment_amount)) {
+      throw new NotFoundException(
+        "Payment amount does not match contract total price!"
+      );
+    }
+
     // Booking va car holatini yangilash
     const booking = await this.bookingService.findOne(contract.booking_id);
     const car = await this.carsService.findOne(booking.car_id);
@@ -45,12 +51,7 @@ export class PaymentsService {
       await car.save();
     }
 
-    // Payment miqdorini tekshirish
-    if (Number(contract.total_price) !== Number(payment_amount)) {
-      throw new NotFoundException(
-        "Payment amount does not match contract total price!"
-      );
-    }
+    // Payment miqdorini tekshiris
 
     // Rental history yaratish
     await this.rentalHistoryService.create({

@@ -31,7 +31,7 @@ export class CustomerController {
     return this.customerService.activateCustomer(link, res);
   }
 
-  @UseGuards(CustomerSelfGuard)
+  @UseGuards(AdminGuard)
   @ApiOperation({ summary: "Barcha customerlarni olish" })
   @ApiResponse({ status: 200, description: "Customerlar ro'yxati." })
   @Get()

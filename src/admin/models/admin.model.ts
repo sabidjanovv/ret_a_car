@@ -47,7 +47,7 @@ export class Admin extends Model<Admin, IAdminAttr> {
 
   @Column({
     type: DataType.BOOLEAN,
-    defaultValue: false,
+    defaultValue: true,
   })
   is_active: boolean;
 

@@ -33,7 +33,7 @@ export class CarsController {
     return this.carsService.create(createCarDto);
   }
 
-  @UseGuards(HybridGuard)
+  // @UseGuards(HybridGuard)
   @Get()
   @ApiOperation({ summary: "Barcha mashinalar ro'yxatini olish" })
   @ApiResponse({
@@ -44,7 +44,7 @@ export class CarsController {
     return this.carsService.findAll();
   }
 
-  @UseGuards(HybridGuard)
+  // @UseGuards(HybridGuard)
   @Get('/free')
   @ApiOperation({ summary: "Barcha mashinalar ro'yxatini olish" })
   @ApiResponse({
@@ -55,7 +55,7 @@ export class CarsController {
     return this.carsService.findAllFreeCar();
   }
 
-  @UseGuards(HybridGuard)
+  // @UseGuards(HybridGuard)
   @Get(":id")
   @ApiOperation({ summary: "ID orqali ma'lum bir mashinani olish" })
   @ApiParam({

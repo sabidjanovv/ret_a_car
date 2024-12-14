@@ -5,10 +5,11 @@ import { JwtModule } from "@nestjs/jwt";
 import { Car } from "./models/car.model";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { OfficeModule } from "../office/office.module"; // OfficeModule ni import qiling
+import { Booking } from "../booking/models/booking.model";
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([Car]),
+    SequelizeModule.forFeature([Car, Booking]),
     JwtModule.register({}),
     OfficeModule, // OfficeModule ni imports ga qo'shing
   ],

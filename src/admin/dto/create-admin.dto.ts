@@ -33,7 +33,7 @@ export class CreateAdminDto {
   @IsString({ message: "Tasdiqlovchi parol satr bo'lishi kerak" })
   confirm_password: string;
 
-  @ApiProperty({ description: "Adminning aktiv holati", default: false })
+  @ApiProperty({ description: "Adminning aktiv holati", default: true })
   @IsBoolean({ message: "Aktiv holat 'true' yoki 'false' bo'lishi kerak" })
   is_active?: boolean;
 
